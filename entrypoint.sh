@@ -20,14 +20,25 @@ WEBROOT_PATH="${WEBROOT_PATH:-"/var/www"}"
 check() {
   echo "* Starting webroot initial certificate request script..."
 
-  certbot certonly --webroot --agree-tos --noninteractive --text --expand \
+  if [ "$CLOUDFLARE_CREDENTIALS" ]; then
+    OPTIONS="--dns-cloudflare \
+    --dns-cloudflare-credentials $CLOUDFLARE_CREDENTIALS"
+    if [ "$CLOUDFLARE_PROPAGATION_SECONDS" ]; then
+      OPTIONS="$OPTIONS \
+      --dns-cloudflare-propagation-seconds $CLOUDFLARE_PROPAGATION_SECONDS"
+    fi
+  else
+    OPTIONS="--webroot --webroot-path ${WEBROOT_PATH}"
+  fi
+
+  certbot certonly --agree-tos --noninteractive --text --expand \
       --email ${EMAIL} \
-      --webroot-path ${WEBROOT_PATH} \
+      ${OPTIONS} \
       ${CERTBOT_DOMAINS}
 
   echo "* Certificate request process finished for domain $DOMAINS"
 
-  if [ "$CERTS_PATH" ] ; then
+  if [ "$CERTS_PATH" ]; then
     echo "* Copying certificates to $CERTS_PATH"
     eval cp /etc/letsencrypt/live/$DOMAINS/* $CERTS_PATH/
   fi
