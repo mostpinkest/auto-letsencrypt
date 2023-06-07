@@ -26,7 +26,7 @@ Verify domain ownership by hosting a file. The webroot method works on any serve
 
 The webroot method assumes a web server is set up to serve ACME challenge files. For example, using Nginx:
 
-```
+```nginx
 location '/.well-known/acme-challenge' {
   root /var/www;
 }
@@ -34,14 +34,14 @@ location '/.well-known/acme-challenge' {
 
 Your server container should be configured to be able use certificates retrieved by `certbot`. The certificates can be found at `/etc/letsencrypt/live/example.com` or be copied to a directory of your choice (see below). For example, using Nginx:
 
-```
+```nginx
 ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;
 ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
 ```
 
 Run this image:
 
-```
+```sh
 docker run -d
   -e 'DOMAINS=example.com www.example.com' \
   -e EMAIL=you@example.com \
@@ -60,7 +60,7 @@ docker run -d
 
 Docker compose:
 
-```
+```yaml
 version: '2'
 
 services:
@@ -107,14 +107,14 @@ For `certbot` to create the required DNS reocrd, it needs to authenticate with a
 
 Your server container should be configured to be able use certificates retrieved by `certbot`. The certificates can be found at `/etc/letsencrypt/live/example.com` or be copied to a directory of your choice (see below). For example, using Nginx:
 
-```
+```nginx
 ssl_certificate     /etc/letsencrypt/live/example.com/fullchain.pem;
 ssl_certificate_key /etc/letsencrypt/live/example.com/privkey.pem;
 ```
 
 Run this image:
 
-```
+```sh
 docker run -d
   -e 'DOMAINS=*.example.com' \
   -e EMAIL=you@example.com \
@@ -131,7 +131,7 @@ docker run -d
 
 Docker compose:
 
-```
+```yaml
 version: '2'
 
 services:
