@@ -16,17 +16,15 @@ DOMAINS=(${DOMAINS})
 CERTBOT_DOMAINS=("${DOMAINS[*]/#/--domain }")
 CHECK_FREQ="${CHECK_FREQ:-30}"
 WEBROOT_PATH="${WEBROOT_PATH:-"/var/www"}"
+CLOUDFLARE_PROPAGATION_SECONDS="${CHECK_FREQ:-10}"
 
 check() {
   echo "* Starting webroot initial certificate request script..."
 
-  if [ "$CLOUDFLARE_CREDENTIALS" ]; then
+  if [ "$CLOUDFLARE_CREDENTIAL" ]; then
     OPTIONS="--dns-cloudflare \
-    --dns-cloudflare-credentials $CLOUDFLARE_CREDENTIALS"
-    if [ "$CLOUDFLARE_PROPAGATION_SECONDS" ]; then
-      OPTIONS="$OPTIONS \
-      --dns-cloudflare-propagation-seconds $CLOUDFLARE_PROPAGATION_SECONDS"
-    fi
+    --dns-cloudflare-credentials $CLOUDFLARE_CREDENTIAL \
+    --dns-cloudflare-propagation-seconds $CLOUDFLARE_PROPAGATION_SECONDS"
   else
     OPTIONS="--webroot --webroot-path ${WEBROOT_PATH}"
   fi
@@ -44,12 +42,12 @@ check() {
   fi
 
   if [ "$SERVER_CONTAINER" ]; then
-    echo "* Reloading Nginx configuration on $SERVER_CONTAINER"
+    echo "* Reloading server configuration in containers: $SERVER_CONTAINER"
     eval docker kill -s HUP $SERVER_CONTAINER
   fi
 
   if [ "$SERVER_CONTAINER_LABEL" ]; then
-    echo "* Reloading Nginx configuration for label $SERVER_CONTAINER_LABEL"
+    echo "* Reloading server configuration for label: $SERVER_CONTAINER_LABEL"
 
     container_id=`docker ps --filter label=$SERVER_CONTAINER_LABEL -q`
     eval docker kill -s HUP $container_id
