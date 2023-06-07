@@ -83,7 +83,7 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/log/letsencrypt/:/var/log/letsencrypt
       - /var/lib/letsencrypt:/var/lib/letsencrypt
-    environment
+    environment:
       - DOMAINS=example.com www.example.com
       - EMAIL=you@example.com
       - SERVER_CONTAINER=nginx
@@ -151,8 +151,8 @@ services:
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/log/letsencrypt/:/var/log/letsencrypt
       - /var/lib/letsencrypt:/var/lib/letsencrypt
-    environment
-      - DOMAINS=.example.com
+    environment:
+      - DOMAINS=*.example.com
       - EMAIL=you@example.com
       - SERVER_CONTAINER=nginx
       - CERTS_PATH=/etc/nginx/certs
