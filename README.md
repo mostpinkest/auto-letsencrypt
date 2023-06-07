@@ -2,7 +2,7 @@
 
 A Docker image to automatically request and renew SSL/TLS certificates from [Let's Encrypt](https://letsencrypt.org/) using [certbot](https://certbot.eff.org/about/) and the [Webroot](https://certbot.eff.org/docs/using.html#webroot) or [Cloudflare DNS](https://certbot-dns-cloudflare.readthedocs.io/en/stable/) method for domain validation. This image is also capable of sending a `HUP` signal to Docker container(s) running a web server in order to use the freshly minted certificates.
 
-Based on the [quay.io/letsencrypt/letsencrypt](https://quay.io/repository/letsencrypt/letsencrypt) base image and inspired by [kvaps/letsencrypt-webroot](https://github.com/kvaps/docker-letsencrypt-webroot). Modified for [Cloudflare DNS](https://certbot-dns-cloudflare.readthedocs.io/en/stable/) support by (Logicer)[https://github.com/Logicer16]
+Based on the [quay.io/letsencrypt/letsencrypt](https://quay.io/repository/letsencrypt/letsencrypt) base image and inspired by [kvaps/letsencrypt-webroot](https://github.com/kvaps/docker-letsencrypt-webroot). Modified for [Cloudflare DNS](https://certbot-dns-cloudflare.readthedocs.io/en/stable/) support by [Logicer](https://github.com/Logicer16)
 
 For ease of auditability, this version is simplified with configuration removed or generalized.
 
@@ -186,12 +186,14 @@ Provide a number to the `CLOUDFLARE_PROPAGATION_SECONDS` environment variable to
 
 ## Configuration
 
-* **DOMAINS**: Domains for your certificate. e.g. `example.com www.example.com *.example.com`.
-* **EMAIL**: Email for urgent notices and lost key recovery. e.g. `you@example.com`.
-* **WEBROOT_PATH** Required for the webroot method. Path to the letsencrypt directory in the web server for checks. Defaults to `/var/www`.
-* **CLOUDFLARE_CREDENTIAL**: Required for Cloudflare DNS. Cloudflare credentials .ini file. [Learn more](https://certbot-dns-cloudflare.readthedocs.io/en/stable/#credentials)
-* **CLOUDFLARE_PROPAGATION_SECONDS**: The number of seconds to wait for DNS to propagate before verifying the DNS record. Defaults to `10`.
-* **CERTS_PATH**: Optional. Copy the new certificates to the specified path. e.g. `/etc/nginx/certs`.
-* **SERVER_CONTAINER**: Optional. The Docker container name(s) of the server(s) you wish to send a `HUP` signal to in order to reload the configuration and use the new certificates.
-* **SERVER_CONTAINER_LABEL**: Optional. The Docker container label of the server you wish to send a `HUP` signal to in order to reload its configuration and use the new certificates. This environment variable will be helpfull in case of deploying with docker swarm since docker swarm will create container name itself.
-* **CHECK_FREQ**: How often (in days) to perform checks. Defaults to `30`.
+| Environment Varibale | Description |
+| --- | --- |
+| `DOMAINS` | Domains for your certificate. e.g. `example.com www.example.com *.example.com`. |
+| `EMAIL` | Email for urgent notices and lost key recovery. e.g. `you@example.com`. |
+| `WEBROOT_PATH` | Defaults to `/var/www`. Required for the webroot method. Path to the letsencrypt directory in the web server for checks. |
+| `CLOUDFLARE_CREDENTIAL` | Required for Cloudflare DNS. Cloudflare credentials .ini file. [Learn more](https://certbot-dns-cloudflare.readthedocs.io/en/stable/#credentials) |
+| `CLOUDFLARE_PROPAGATION_SECONDS` | Defaults to `10`. The number of seconds to wait for DNS to propagate before verifying the DNS record. |
+| `CERTS_PATH` | Optional. Copy the new certificates to the specified path. e.g. `/etc/nginx/certs`. |
+| `SERVER_CONTAINER` | Optional. The Docker container name(s) of the server(s) you wish to send a `HUP` signal to in order to reload the configuration and use the new certificates. |
+| `SERVER_CONTAINER_LABEL` | Optional. The Docker container label of the server you wish to send a `HUP` signal to in order to reload its configuration and use the new certificates. This environment variable will be helpfull in case of deploying with docker swarm since docker swarm will create container name itself. |
+| `CHECK_FREQ` | Defaults to `30`. How often (in days) to perform checks. |
