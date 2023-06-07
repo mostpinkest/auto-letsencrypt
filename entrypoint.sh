@@ -38,7 +38,7 @@ check() {
 
   if [ "$CERTS_PATH" ]; then
     echo "* Copying certificates to $CERTS_PATH"
-    eval cp /etc/letsencrypt/live/$DOMAINS/* $CERTS_PATH/
+    eval cp -LR /etc/letsencrypt/live/* $CERTS_PATH/
   fi
 
   if [ "$SERVER_CONTAINER" ]; then
