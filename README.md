@@ -118,10 +118,13 @@ Run this image:
 docker run -d
   -e 'DOMAINS=*.example.com' \
   -e EMAIL=you@example.com \
+  -e CLOUDFLARE_CREDENTIAL=/cloudflare-credential.ini \
+  -e CLOUDFLARE_PROPAGATION_SECONDS=10 \
   -e SERVER_CONTAINER=nginx \
   -e CERTS_PATH=/etc/nginx/certs \
   -e CHECK_FREQ=7 \
   -v /etc/nginx/certs:/etc/nginx/certs \
+  -v ./cloudflare-credential.ini:/cloudflare-credential.ini \
   -v /var/run/docker.sock:/var/run/docker.sock \
   -v /etc/letsencrypt:/etc/letsencrypt \
   -v /var/log/letsencrypt/:/var/log/letsencrypt \
@@ -147,6 +150,7 @@ services:
     image: logicer16/auto-letsencrypt
     volumes:
       - certs:/etc/nginx/certs
+      - ./cloudflare-credential.ini:/cloudflare-credential.ini
       - /var/run/docker.sock:/var/run/docker.sock
       - /etc/letsencrypt:/etc/letsencrypt
       - /var/log/letsencrypt/:/var/log/letsencrypt
@@ -154,6 +158,8 @@ services:
     environment:
       - DOMAINS=*.example.com
       - EMAIL=you@example.com
+      - CLOUDFLARE_CREDENTIAL=/cloudflare-credential.ini
+      - CLOUDFLARE_PROPAGATION_SECONDS=10
       - SERVER_CONTAINER=nginx
       - CERTS_PATH=/etc/nginx/certs
       - CHECK_FREQ=7
