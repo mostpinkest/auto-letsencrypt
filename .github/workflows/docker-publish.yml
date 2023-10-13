@@ -47,6 +47,8 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKERHUB_USERNAME }}/${{ github.event.repository.name }}:latest
+          cache-from: type=gha
+          cache-to: type=gha,mode=maxt
       -
         name: Update repo description
         uses: peter-evans/dockerhub-description@v3
