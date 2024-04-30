@@ -16,7 +16,7 @@ DOMAINS=(${DOMAINS})
 CERTBOT_DOMAINS=("${DOMAINS[*]/#/--domain }")
 CHECK_FREQ="${CHECK_FREQ:-30}"
 WEBROOT_PATH="${WEBROOT_PATH:-"/var/www"}"
-CLOUDFLARE_PROPAGATION_SECONDS="${CHECK_FREQ:-10}"
+CLOUDFLARE_PROPAGATION_SECONDS="${CLOUDFLARE_PROPAGATION_SECONDS:-10}"
 
 check() {
   echo "* Starting webroot initial certificate request script..."
