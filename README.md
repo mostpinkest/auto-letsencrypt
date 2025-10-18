@@ -1,8 +1,8 @@
-# logicer16/auto-letsencrypt
+# mostpinkest/auto-letsencrypt
 
 A Docker image to automatically request and renew SSL/TLS certificates from [Let's Encrypt](https://letsencrypt.org/) using [certbot](https://certbot.eff.org/about/) and the [Webroot](https://certbot.eff.org/docs/using.html#webroot) or [Cloudflare DNS](https://certbot-dns-cloudflare.readthedocs.io/en/stable/) method for domain validation. This image is also capable of sending a `HUP` signal to Docker container(s) running a web server in order to use the freshly minted certificates.
 
-Based on the [quay.io/letsencrypt/letsencrypt](https://quay.io/repository/letsencrypt/letsencrypt) base image and inspired by [kvaps/letsencrypt-webroot](https://github.com/kvaps/docker-letsencrypt-webroot). Modified for [Cloudflare DNS](https://certbot-dns-cloudflare.readthedocs.io/en/stable/) support by [Logicer](https://github.com/Logicer16)
+Based on the [quay.io/letsencrypt/letsencrypt](https://quay.io/repository/letsencrypt/letsencrypt) base image and inspired by [kvaps/letsencrypt-webroot](https://github.com/kvaps/docker-letsencrypt-webroot). Modified for [Cloudflare DNS](https://certbot-dns-cloudflare.readthedocs.io/en/stable/) support by [mostpinkest](https://github.com/mostpinkest)
 
 For ease of auditability, this version is simplified with configuration removed or generalized.
 
@@ -55,7 +55,7 @@ docker run -d
   -v /etc/letsencrypt:/etc/letsencrypt \
   -v /var/log/letsencrypt/:/var/log/letsencrypt \
   -v /var/lib/letsencrypt:/var/lib/letsencrypt \
-  logicer16/auto-letsencrypt
+  mostpinkest/auto-letsencrypt
 ```
 
 Docker compose:
@@ -75,7 +75,7 @@ services:
     restart: unless-stopped
 
   letsencrypt:
-    image: logicer16/auto-letsencrypt
+    image: mostpinkest/auto-letsencrypt
     volumes:
       - /tmp/letsencrypt/www:/tmp/letsencrypt/www
       - certs:/etc/nginx/certs
@@ -129,7 +129,7 @@ docker run -d
   -v /etc/letsencrypt:/etc/letsencrypt \
   -v /var/log/letsencrypt/:/var/log/letsencrypt \
   -v /var/lib/letsencrypt:/var/lib/letsencrypt \
-  logicer16/auto-letsencrypt
+  mostpinkest/auto-letsencrypt
 ```
 
 Docker compose:
@@ -147,7 +147,7 @@ services:
     restart: unless-stopped
 
   letsencrypt:
-    image: logicer16/auto-letsencrypt
+    image: mostpinkest/auto-letsencrypt
     volumes:
       - certs:/etc/nginx/certs
       - ./cloudflare-credential.ini:/cloudflare-credential.ini
