@@ -8,6 +8,8 @@ on:
 jobs:
   update-repo:
     uses: mostpinkest/workflows/.github/workflows/update-repo.yml@main
+    permissions:
+      contents: write
     with:
       upstream: gchan/auto-letsencrypt
 
@@ -15,4 +17,9 @@ jobs:
     needs: update-repo
     if: ${{ needs.update-repo.outputs.new-commits == 'true' }}
     uses: ./.github/workflows/docker-publish.yml
+    permissions:
+      id-token: write
+      contents: read
+      attestations: write
+      packages: write
     secrets: inherit
